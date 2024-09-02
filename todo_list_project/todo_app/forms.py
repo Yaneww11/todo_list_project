@@ -1,5 +1,6 @@
 from django import forms
-from models import Task
+
+from todo_list_project.todo_app.models import Task
 
 
 class BaseTaskForm(forms.ModelForm):
@@ -9,7 +10,7 @@ class BaseTaskForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'placeholder': 'Task title'}),
             'description': forms.TextInput(attrs={'placeholder': 'Task description'}),
-            'due_date': forms.URLInput(attrs={'placeholder': 'Task expiration date'}),
+            'due_date': forms.DateInput(attrs={'placeholder': 'MM/DD/YYYY'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -19,8 +20,7 @@ class BaseTaskForm(forms.ModelForm):
 
 
 class TaskAddForm(BaseTaskForm):
-    class Meta:
-        fields = ['title', 'description', 'due_date']
+    pass
 
 
 class TaskEditForm(BaseTaskForm):
