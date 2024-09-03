@@ -24,5 +24,8 @@ class Task(models.Model):
 
     objects = TaskQueryset().as_manager()
 
+    class Meta:
+        ordering = ['due_date']
+
     def __str__(self):
         return self.title
