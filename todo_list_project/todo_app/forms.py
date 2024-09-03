@@ -8,19 +8,17 @@ class BaseTaskForm(forms.ModelForm):
         model = Task
         fields = '__all__'
         widgets = {
-            'title': forms.TextInput(attrs={'placeholder': 'Task title'}),
+            'title': forms.TextInput(attrs={'placeholder': 'Task title would be unique'}),
             'description': forms.TextInput(attrs={'placeholder': 'Task description'}),
-            'due_date': forms.DateInput(attrs={'placeholder': 'MM/DD/YYYY'}),
+            'due_date': forms.SelectDateWidget(),
         }
 
+
+class TaskAddForm(BaseTaskForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.label = ''
-
-
-class TaskAddForm(BaseTaskForm):
-    pass
 
 
 class TaskEditForm(BaseTaskForm):

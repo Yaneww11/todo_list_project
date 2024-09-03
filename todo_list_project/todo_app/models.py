@@ -1,9 +1,14 @@
 from django.db import models
 
+from todo_list_project.todo_app.managers import TaskQueryset
+
 
 # Create your models here.
 class Task(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(
+        max_length=100,
+        unique=True,
+    )
 
     description = models.TextField(
         blank=True,
@@ -16,6 +21,8 @@ class Task(models.Model):
         null=True,
         blank=True
     )
+
+    objects = TaskQueryset().as_manager()
 
     def __str__(self):
         return self.title
