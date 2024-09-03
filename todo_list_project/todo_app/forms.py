@@ -17,8 +17,12 @@ class BaseTaskForm(forms.ModelForm):
 class TaskAddForm(BaseTaskForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        count = 0
         for field in self.fields.values():
-            field.label = ''
+            count += 1
+            if count < 3:
+                field.label = ''
+
 
 
 class TaskEditForm(BaseTaskForm):
