@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from todo_list_project.todo_app.forms import TaskAddForm, TaskEditForm, TaskDeleteForm
 from todo_list_project.todo_app.models import Task
@@ -6,9 +6,8 @@ from todo_list_project.todo_app.models import Task
 
 # Create your views here.
 def index(request):
-    tasks = Task.objects.all()
-    uncompleted_tasks = tasks.filter(completed=False).order_by('due_date')
-    completed_tasks = tasks.filter(completed=True)
+    uncompleted_tasks = Task.objects.uncompleted_tasks()
+    completed_tasks = Task.objects.completed_tasks()
 
     context = {
         'completed_tasks': completed_tasks,
@@ -20,7 +19,7 @@ def index(request):
 
 def task_create(request):
     if request.method == 'GET':
-        form = TaskAddForm()
+        form = TaskAddForm(None)
     else:
         form = TaskAddForm(request.POST)
         if form.is_valid():
@@ -35,7 +34,7 @@ def task_create(request):
 
 
 def task_update(request, id):
-    task = Task.objects.get(id=id)
+    task = get_object_or_404(Task, id=id)
 
     if request.method == 'GET':
         form = TaskEditForm(instance=task)
@@ -53,7 +52,7 @@ def task_update(request, id):
 
 
 def task_delete(request, id):
-    task = Task.objects.get(id=id)
+    task = get_object_or_404(Task, id=id)
 
     if request.method == 'GET':
         form = TaskDeleteForm(instance=task)
